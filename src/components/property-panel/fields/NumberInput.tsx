@@ -24,7 +24,8 @@ function fmt(v: number) {
 export function NumberInput({ label, value, onChange, min, max, step = 0.01, disabled }: NumberInputProps) {
   // localText: non-null when the input is focused (holds raw editing string)
   const [localText, setLocalText] = useState<string | null>(null)
-  const dragRef = useRef<{ startX: number; startVal: number } | null>(null)
+  const dragRef  = useRef<{ startX: number; startVal: number } | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const commit = (raw: string) => {
     const v = parseFloat(raw)
@@ -35,6 +36,8 @@ export function NumberInput({ label, value, onChange, min, max, step = 0.01, dis
   const handleLabelMouseDown = (e: React.MouseEvent) => {
     if (disabled) return
     e.preventDefault()
+    // Blur the input so localText is cleared and live value updates are visible
+    inputRef.current?.blur()
     dragRef.current = { startX: e.clientX, startVal: value }
 
     const saved = { sel: document.body.style.userSelect, cur: document.body.style.cursor }
@@ -83,6 +86,7 @@ export function NumberInput({ label, value, onChange, min, max, step = 0.01, dis
         {label}
       </label>
       <input
+        ref={inputRef}
         className={styles.input}
         type="text"
         inputMode="decimal"
