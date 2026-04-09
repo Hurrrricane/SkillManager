@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.count {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+.countLabel {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.empty {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 16px 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 6px 8px;
+  gap: 6px;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.itemId {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.itemTime {
+  font-size: 12px;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.itemActions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.jumpBtn {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg-hover);
+  color: var(--accent);
+  border: 1px solid var(--border-color);
+}
+.jumpBtn:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.deleteBtn {
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+}
+.deleteBtn:hover {
+  background: rgba(231,76,60,0.15);
+  color: #e74c3c;
+  border-color: rgba(231,76,60,0.3);
+}
+
+.addSection {
+  margin-top: 4px;
+}
+
+.addBtn {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  background: var(--bg-tertiary);
+  color: var(--accent);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  text-align: left;
+}
+.addBtn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+}

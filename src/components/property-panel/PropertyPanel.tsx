@@ -12,6 +12,8 @@ import { SFXEventPanel } from './panels/SFXEventPanel'
 import { LoopEventPanel } from './panels/LoopEventPanel'
 import { CameraEventPanel } from './panels/CameraEventPanel'
 import { SkillPropertiesPanel } from './SkillPropertiesPanel'
+import { TrackPanel } from './TrackPanel'
+import { TRACKS } from '@/components/timeline/tracks'
 import styles from './PropertyPanel.module.css'
 
 function renderEventPanel(event: AnyEvent) {
@@ -32,6 +34,7 @@ function renderEventPanel(event: AnyEvent) {
 
 export function PropertyPanel() {
   const selectedEvent  = useUIStore(s => s.selectedEvent)
+  const selectedTrack  = useUIStore(s => s.selectedTrack)
   const selectedSkillId = useSkillStore(s => s.selectedSkillId)
   const events = useEventStore(s => selectedSkillId ? (s.index[selectedSkillId] ?? []) : [])
 
@@ -41,6 +44,29 @@ export function PropertyPanel() {
 
   if (!selectedSkillId) {
     return <div className={styles.empty}>未选择技能</div>
+  }
+
+  // 选中轨道 → 显示轨道详情
+  if (!event && selectedTrack) {
+    const track = TRACKS.find(t => t.kind === selectedTrack)
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <span className={styles.kindTag} style={{ borderLeft: `3px solid ${track?.color ?? '#888'}`, paddingLeft: 6 }}>
+            {track?.label ?? selectedTrack}
+          </span>
+          <span className={styles.idTag}>轨道</span>
+          <button
+            className={styles.backBtn}
+            onClick={() => useUIStore.getState().setSelectedTrack(null)}
+            title="返回技能属性"
+          >← 技能</button>
+        </div>
+        <div className={styles.body}>
+          <TrackPanel kind={selectedTrack} />
+        </div>
+      </div>
+    )
   }
 
   if (!event) {

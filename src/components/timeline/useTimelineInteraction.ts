@@ -20,6 +20,8 @@ interface InteractionOptions {
   zoom: number
   scrollX: number
   skillDuration: number
+  deriveRows: Map<number, number>
+  deriveRowCount: number
   canvasRef: React.RefObject<HTMLCanvasElement>
   onRedraw: () => void
   onHoverChange: (id: number | null, kind: string | null) => void
@@ -35,22 +37,21 @@ export function useTimelineInteraction(opts: InteractionOptions) {
       : { cx: 0, cy: 0 }
   }, [opts.canvasRef])
 
+  const doHitTest = useCallback((cx: number, cy: number) =>
+    hitTest(cx, cy, opts.events, opts.zoom, opts.scrollX, opts.skillDuration, opts.deriveRows, opts.deriveRowCount),
+    [opts])
+
   const onMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (e.button !== 0) return
     const { cx, cy } = getCanvasXY(e.clientX, e.clientY)
     if (cy < RULER_HEIGHT) return
 
-    const hit = hitTest(cx, cy, opts.events, opts.zoom, opts.scrollX, opts.skillDuration)
-
-    if (!hit) {
-      useUIStore.getState().selectEvent(null)
-      return
-    }
+    const hit = doHitTest(cx, cy)
+    if (!hit) { useUIStore.getState().selectEvent(null); return }
 
     if (isSkillDurationHit(hit)) {
       drag.current = { type: 'skillDuration', startClientX: e.clientX, originalDur: opts.skillDuration, moved: false }
-      e.preventDefault()
-      return
+      e.preventDefault(); return
     }
 
     const { event, zone } = hit as import('./hitTest').HitResult
@@ -66,27 +67,21 @@ export function useTimelineInteraction(opts: InteractionOptions) {
       const ev = event as { startTime: number; endTime: number }
       drag.current = { type: 'duration', event, zone: zone as 'left'|'right'|'body', startClientX: e.clientX, originalStart: ev.startTime, originalEnd: ev.endTime, moved: false }
     }
-
     e.preventDefault()
-  }, [opts, getCanvasXY])
+  }, [opts, doHitTest, getCanvasXY])
 
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = opts.canvasRef.current
     if (!canvas) return
-
     const { cx, cy } = getCanvasXY(e.clientX, e.clientY)
     const d = drag.current
 
-    // 更新贯通虚线位置
     useUIStore.getState().setCursorX(cx)
 
     if (d.type === 'none') {
       const isRuler = cy < RULER_HEIGHT
-      const isDurTrack = cy >= RULER_HEIGHT && cy < RULER_HEIGHT + DURATION_TRACK_HEIGHT
-      const hit = (isRuler || isDurTrack)
-        ? hitTest(cx, cy, opts.events, opts.zoom, opts.scrollX, opts.skillDuration)
-        : hitTest(cx, cy, opts.events, opts.zoom, opts.scrollX, opts.skillDuration)
-      canvas.style.cursor = cursorForHit(hit, isRuler, isDurTrack && !hit)
+      const hit = doHitTest(cx, cy)
+      canvas.style.cursor = cursorForHit(hit, isRuler)
       opts.onHoverChange(
         hit && isEventHit(hit) ? hit.event.id : null,
         hit && isEventHit(hit) ? hit.event.kind : null,
@@ -145,13 +140,10 @@ export function useTimelineInteraction(opts: InteractionOptions) {
         }
       }
     }
-
     opts.onRedraw()
-  }, [opts, getCanvasXY])
+  }, [opts, doHitTest, getCanvasXY])
 
-  const onMouseUp = useCallback(() => {
-    drag.current = { type: 'none' }
-  }, [])
+  const onMouseUp = useCallback(() => { drag.current = { type: 'none' } }, [])
 
   const onMouseLeave = useCallback(() => {
     if (drag.current.type === 'none') {
@@ -162,7 +154,6 @@ export function useTimelineInteraction(opts: InteractionOptions) {
     if (canvas) canvas.style.cursor = 'default'
   }, [opts])
 
-  // 滚轮：横向滚动（缩放移到 zoom 指示器上）
   const onWheel = useCallback((e: React.WheelEvent<HTMLCanvasElement>) => {
     e.preventDefault()
     const { setScrollX, timelineScrollX } = useUIStore.getState()

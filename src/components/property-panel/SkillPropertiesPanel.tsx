@@ -43,25 +43,36 @@ const EVENT_TYPES: { label: string; kind: AnyEvent['kind']; color: string }[] = 
   { label: '镜头',  kind: 'CameraEvent',       color: '#8E44AD' },
 ]
 
-function makeDefaultEvent(kind: AnyEvent['kind'], skillId: number): Omit<AnyEvent, 'id'> {
+function makeDefaultEvent(kind: AnyEvent['kind'], skillId: number, allEvents: AnyEvent[]): Omit<AnyEvent, 'id'> {
+  const sameKind = allEvents.filter(e => e.kind === kind)
+  let lastEnd = 0
+  for (const e of sameKind) {
+    if ('triggerTime' in e) lastEnd = Math.max(lastEnd, (e as { triggerTime: number }).triggerTime)
+    else if ('deriveEnd' in e) lastEnd = Math.max(lastEnd, (e as { deriveEnd: number }).deriveEnd)
+    else if ('endTime' in e) lastEnd = Math.max(lastEnd, (e as { endTime: number }).endTime)
+  }
+  const pt = parseFloat((lastEnd + 0.5).toFixed(2))
+  const ds = parseFloat((lastEnd + 0.5).toFixed(2))
+  const de = parseFloat((lastEnd + 1.0).toFixed(2))
+
   switch (kind) {
-    case 'AnimEvent':         return { kind, skillId, triggerTime: 0, animName: 'new_anim' }
-    case 'HitEvent':          return { kind, skillId, triggerTime: 0.25, shape: EHitShape.Fan, offsetX: 0, offsetY: 1, rotation: 0, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
-    case 'BuffEvent':         return { kind, skillId, triggerTime: 0.2, buffId: 1, target: EBuffTarget.Self, duration: 0, stackCount: 1 }
-    case 'ResourceEvent':     return { kind, skillId, triggerTime: 0.2, resourceType: EResourceType.Energy, value: 10, isPercent: false }
-    case 'VFXEvent':          return { kind, skillId, triggerTime: 0.1, effectId: 'vfx_new', attachPoint: '', offsetX: 0, offsetY: 0, offsetZ: 0, rotation: 0, scale: 1, duration: 0, followChar: true }
-    case 'SFXEvent':          return { kind, skillId, triggerTime: 0.1, audioId: 'sfx_new', volume: 1, loop: false, stopTime: 0 }
-    case 'DeriveEvent':       return { kind, skillId, targetSkillIds: [], deriveStart: 0.3, deriveEnd: 0.8, enablePreInput: false, preInputPoint: 0 }
-    case 'DisplacementEvent': return { kind, skillId, startTime: 0.1, endTime: 0.4, direction: EDisplacementDir.Forward, customAngle: 0, distance: 2, curve: EEaseCurve.EaseOut, ignoreCollision: false }
-    case 'StateEvent':        return { kind, skillId, startTime: 0, endTime: 0.5, stateFlags: EStateFlag.SuperArmor }
-    case 'LoopEvent':         return { kind, skillId, startTime: 0.2, endTime: 0.6, maxDuration: 0 }
-    case 'CameraEvent':       return { kind, skillId, startTime: 0.3, endTime: 0.5, cameraType: ECameraType.Shake, intensity: 0.2, curve: EEaseCurve.EaseOut }
+    case 'AnimEvent':         return { kind, skillId, triggerTime: pt,  animName: 'new_anim' }
+    case 'HitEvent':          return { kind, skillId, triggerTime: pt,  shape: EHitShape.Fan, offsetX: 0, offsetY: 1, rotation: 0, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
+    case 'BuffEvent':         return { kind, skillId, triggerTime: pt,  buffId: 1, target: EBuffTarget.Self, duration: 0, stackCount: 1 }
+    case 'ResourceEvent':     return { kind, skillId, triggerTime: pt,  resourceType: EResourceType.Energy, value: 10, isPercent: false }
+    case 'VFXEvent':          return { kind, skillId, triggerTime: pt,  effectId: 'vfx_new', attachPoint: '', offsetX: 0, offsetY: 0, offsetZ: 0, rotation: 0, scale: 1, duration: 0, followChar: true }
+    case 'SFXEvent':          return { kind, skillId, triggerTime: pt,  audioId: 'sfx_new', volume: 1, loop: false, stopTime: 0 }
+    case 'DeriveEvent':       return { kind, skillId, targetSkillIds: [], deriveStart: ds, deriveEnd: de, enablePreInput: false, preInputPoint: 0 }
+    case 'DisplacementEvent': return { kind, skillId, startTime: ds, endTime: de, direction: EDisplacementDir.Forward, customAngle: 0, distance: 2, curve: EEaseCurve.EaseOut, ignoreCollision: false }
+    case 'StateEvent':        return { kind, skillId, startTime: ds, endTime: de, stateFlags: EStateFlag.SuperArmor }
+    case 'LoopEvent':         return { kind, skillId, startTime: ds, endTime: de, maxDuration: 0 }
+    case 'CameraEvent':       return { kind, skillId, startTime: ds, endTime: de, cameraType: ECameraType.Shake, intensity: 0.2, curve: EEaseCurve.EaseOut }
   }
 }
 
 export function SkillPropertiesPanel() {
   const { skills, selectedSkillId, updateSkill } = useSkillStore()
-  const { addEvent } = useEventStore.getState()
+  const events = useEventStore(s => selectedSkillId ? (s.index[selectedSkillId] ?? []) : [])
   const [showAddMenu, setShowAddMenu] = useState(false)
 
   const skill = skills.find(s => s.id === selectedSkillId)
@@ -71,7 +82,7 @@ export function SkillPropertiesPanel() {
     updateSkill(skill.id, { [k]: v })
 
   const handleAddEvent = (kind: AnyEvent['kind']) => {
-    addEvent(makeDefaultEvent(kind, skill.id))
+    useEventStore.getState().addEvent(makeDefaultEvent(kind, skill.id, events))
     setShowAddMenu(false)
   }
 
