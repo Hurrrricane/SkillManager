@@ -20,8 +20,22 @@
   font-size: 13px; width: 100%;
 }
 .field input:focus { outline: none; border-color: var(--accent); }
+/* 单行 checkbox 字段：左侧标签 + 右侧勾选 */
+.checkField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  min-height: 28px;
+}
+.checkField > span {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 .toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
-.toggle input { accent-color: var(--accent); cursor: pointer; }
+.toggle input { accent-color: var(--accent); cursor: pointer; width: auto; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .targetList { display: flex; flex-direction: column; gap: 4px; }
 .targetItem { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; }

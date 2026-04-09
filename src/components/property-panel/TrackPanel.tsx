@@ -13,8 +13,6 @@ function eventTimeLabel(event: AnyEvent): string {
 export function TrackPanel({ kind }: { kind: string }) {
   const selectedSkillId = useSkillStore(s => s.selectedSkillId)
   const events = useEventStore(s => selectedSkillId ? (s.index[selectedSkillId] ?? []) : [])
-  const { removeEvent } = useEventStore.getState()
-
   const track = TRACKS.find(t => t.kind === kind)
   const trackEvents = events.filter(e => e.kind === kind)
     .sort((a, b) => {
@@ -34,7 +32,7 @@ export function TrackPanel({ kind }: { kind: string }) {
 
   const handleDelete = (event: AnyEvent) => {
     if (!selectedSkillId) return
-    removeEvent(selectedSkillId, event.id, event.kind)
+    useEventStore.getState().deleteEvent(selectedSkillId, event.id, event.kind)
   }
 
   return (

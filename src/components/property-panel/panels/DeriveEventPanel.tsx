@@ -24,8 +24,8 @@ export function DeriveEventPanel({ event }: Props) {
         <NumberInput label="派生起点 (s)" value={event.deriveStart} onChange={v => up({ deriveStart: v })} min={0} />
         <NumberInput label="派生终点 (s)" value={event.deriveEnd} onChange={v => up({ deriveEnd: v })} min={0} />
       </div>
-      <div className={styles.field}>
-        <label>预输入</label>
+      <div className={styles.checkField}>
+        <span>预输入</span>
         <label className={styles.toggle}>
           <input type="checkbox" checked={event.enablePreInput} onChange={e => up({ enablePreInput: e.target.checked })} />
           启用

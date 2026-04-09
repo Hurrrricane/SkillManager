@@ -30,17 +30,17 @@ const TAG_OPTS = [
 
 // ── 事件类型列表（用于添加按钮）────────────────────────────
 const EVENT_TYPES: { label: string; kind: AnyEvent['kind']; color: string }[] = [
-  { label: '派生',  kind: 'DeriveEvent',       color: '#7C5CBF' },
-  { label: '动画',  kind: 'AnimEvent',         color: '#3A7BD5' },
   { label: 'Hit',   kind: 'HitEvent',          color: '#E74C3C' },
-  { label: 'Buff',  kind: 'BuffEvent',         color: '#F39C12' },
-  { label: '资源',  kind: 'ResourceEvent',     color: '#27AE60' },
-  { label: 'VFX',   kind: 'VFXEvent',          color: '#1ABC9C' },
-  { label: 'SFX',   kind: 'SFXEvent',          color: '#9B59B6' },
   { label: '位移',  kind: 'DisplacementEvent', color: '#E67E22' },
   { label: '状态',  kind: 'StateEvent',        color: '#2ECC71' },
-  { label: '循环',  kind: 'LoopEvent',         color: '#16A085' },
+  { label: '资源',  kind: 'ResourceEvent',     color: '#27AE60' },
+  { label: 'Buff',  kind: 'BuffEvent',         color: '#F39C12' },
+  { label: '派生',  kind: 'DeriveEvent',       color: '#7C5CBF' },
+  { label: '动画',  kind: 'AnimEvent',         color: '#3A7BD5' },
+  { label: 'VFX',   kind: 'VFXEvent',          color: '#1ABC9C' },
+  { label: 'SFX',   kind: 'SFXEvent',          color: '#9B59B6' },
   { label: '镜头',  kind: 'CameraEvent',       color: '#8E44AD' },
+  { label: '循环',  kind: 'LoopEvent',         color: '#16A085' },
 ]
 
 function makeDefaultEvent(kind: AnyEvent['kind'], skillId: number, allEvents: AnyEvent[]): Omit<AnyEvent, 'id'> {

@@ -9,17 +9,17 @@ export interface TrackConfig {
 }
 
 export const TRACKS: TrackConfig[] = [
-  { id: 'derive',       label: '派生',  kind: 'DeriveEvent',       color: '#7C5CBF', height: 36 },
-  { id: 'anim',         label: '动画',  kind: 'AnimEvent',         color: '#3A7BD5', height: 32 },
   { id: 'hit',          label: 'Hit',   kind: 'HitEvent',          color: '#E74C3C', height: 32 },
-  { id: 'buff',         label: 'Buff',  kind: 'BuffEvent',         color: '#F39C12', height: 32 },
-  { id: 'resource',     label: '资源',  kind: 'ResourceEvent',     color: '#27AE60', height: 32 },
-  { id: 'vfx',          label: 'VFX',   kind: 'VFXEvent',          color: '#1ABC9C', height: 32 },
-  { id: 'sfx',          label: 'SFX',   kind: 'SFXEvent',          color: '#9B59B6', height: 32 },
   { id: 'displacement', label: '位移',  kind: 'DisplacementEvent', color: '#E67E22', height: 32 },
   { id: 'state',        label: '状态',  kind: 'StateEvent',        color: '#2ECC71', height: 32 },
-  { id: 'loop',         label: '循环',  kind: 'LoopEvent',         color: '#16A085', height: 32 },
+  { id: 'resource',     label: '资源',  kind: 'ResourceEvent',     color: '#27AE60', height: 32 },
+  { id: 'buff',         label: 'Buff',  kind: 'BuffEvent',         color: '#F39C12', height: 32 },
+  { id: 'derive',       label: '派生',  kind: 'DeriveEvent',       color: '#7C5CBF', height: 36 },
+  { id: 'anim',         label: '动画',  kind: 'AnimEvent',         color: '#3A7BD5', height: 32 },
+  { id: 'vfx',          label: 'VFX',   kind: 'VFXEvent',          color: '#1ABC9C', height: 32 },
+  { id: 'sfx',          label: 'SFX',   kind: 'SFXEvent',          color: '#9B59B6', height: 32 },
   { id: 'camera',       label: '镜头',  kind: 'CameraEvent',       color: '#8E44AD', height: 32 },
+  { id: 'loop',         label: '循环',  kind: 'LoopEvent',         color: '#16A085', height: 32 },
 ]
 
 export const RULER_HEIGHT = 28

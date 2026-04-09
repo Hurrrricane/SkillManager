@@ -40,8 +40,8 @@ export function DisplacementEventPanel({ event }: Props) {
       )}
       <NumberInput label="位移距离" value={event.distance} onChange={v => up({ distance: v })} min={0} />
       <EnumSelect label="速度曲线" value={event.curve} options={CURVE_OPTIONS} onChange={v => up({ curve: v })} />
-      <div className={styles.field}>
-        <label>穿透碰撞</label>
+      <div className={styles.checkField}>
+        <span>穿透碰撞</span>
         <label className={styles.toggle}>
           <input type="checkbox" checked={event.ignoreCollision} onChange={e => up({ ignoreCollision: e.target.checked })} />
           忽略碰撞体
