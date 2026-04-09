@@ -27,11 +27,12 @@ export interface RenderParams {
   cursorX: number | null
   deriveRows: Map<number, number>
   deriveRowCount: number
+  selectedTrack: string | null
 }
 
 export function useTimelineRenderer() {
   const render = useCallback((p: RenderParams) => {
-    const { canvas, events, zoom, scrollX, totalDuration, skillDuration, deriveRows, deriveRowCount } = p
+    const { canvas, events, zoom, scrollX, totalDuration, skillDuration, deriveRows, deriveRowCount, selectedTrack } = p
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
@@ -85,6 +86,15 @@ export function useTimelineRenderer() {
         : TRACKS[i].height
       ctx.fillStyle = i % 2 === 0 ? '#1e1e2e' : '#232333'
       ctx.fillRect(0, ty, W, th)
+
+      // 轨道高亮：选中轨道（强）/ 事件所在轨道（弱）
+      if (selectedTrack === TRACKS[i].kind) {
+        ctx.fillStyle = 'rgba(137,180,250,0.07)'
+        ctx.fillRect(0, ty, W, th)
+      } else if (p.selectedEventKind === TRACKS[i].kind) {
+        ctx.fillStyle = 'rgba(137,180,250,0.04)'
+        ctx.fillRect(0, ty, W, th)
+      }
 
       // 派生：行内分隔线
       if (TRACKS[i].kind === 'DeriveEvent' && deriveRowCount > 1) {

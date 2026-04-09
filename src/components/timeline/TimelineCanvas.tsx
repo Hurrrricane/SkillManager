@@ -14,7 +14,7 @@ import styles from './TimelineCanvas.module.css'
 export function TimelineCanvas() {
   const { selectedSkillId, skills } = useSkillStore()
   const events = useEventStore(s => selectedSkillId ? (s.index[selectedSkillId] ?? []) : [])
-  const { timelineZoom: zoom, timelineScrollX: scrollX, selectedEvent, cursorX, setZoom, setScrollX, setSelectedTrack } = useUIStore()
+  const { timelineZoom: zoom, timelineScrollX: scrollX, selectedEvent, selectedTrack, cursorX, setZoom, setScrollX, setSelectedTrack } = useUIStore()
 
   const skill = skills.find(s => s.id === selectedSkillId)
   const skillDuration = skill?.skillDuration ?? 0
@@ -62,13 +62,14 @@ export function TimelineCanvas() {
           cursorX,
           deriveRows,
           deriveRowCount,
+          selectedTrack,
         })
       }
       rafId.current = requestAnimationFrame(loop)
     }
     rafId.current = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafId.current)
-  }, [render, events, zoom, scrollX, totalDuration, skillDuration, selectedEvent, cursorX, deriveRows, deriveRowCount])
+  }, [render, events, zoom, scrollX, totalDuration, skillDuration, selectedEvent, selectedTrack, cursorX, deriveRows, deriveRowCount])
 
   // canvas 尺寸
   useEffect(() => {
@@ -83,7 +84,7 @@ export function TimelineCanvas() {
     dirty.current = true
   }, [containerSize, deriveRowCount])
 
-  useEffect(() => { dirty.current = true }, [events, zoom, scrollX, totalDuration, skillDuration, selectedEvent, cursorX, deriveRows, deriveRowCount])
+  useEffect(() => { dirty.current = true }, [events, zoom, scrollX, totalDuration, skillDuration, selectedEvent, selectedTrack, cursorX, deriveRows, deriveRowCount])
 
   // 缩放（等比保留 scrollX 比例，t=0 随 zoom 等比缩放始终可见）
   const onZoomWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
@@ -133,10 +134,18 @@ export function TimelineCanvas() {
           </div>
           {TRACKS.map(t => {
             const h = t.kind === 'DeriveEvent' ? deriveTrackH : t.height
+            const isTrackSelected = selectedTrack === t.kind
+            const isEventActive = !isTrackSelected && selectedEvent?.kind === t.kind
+            const labelCls = [
+              styles.trackLabel,
+              styles.trackLabelClickable,
+              isTrackSelected ? styles.trackLabelSelected : '',
+              isEventActive  ? styles.trackLabelEventActive : '',
+            ].filter(Boolean).join(' ')
             return (
               <div
                 key={t.id}
-                className={`${styles.trackLabel} ${styles.trackLabelClickable}`}
+                className={labelCls}
                 style={{ height: h, borderLeft: `3px solid ${t.color}` }}
                 onClick={() => setSelectedTrack(t.kind)}
                 title={`点击查看 ${t.label} 轨道详情`}

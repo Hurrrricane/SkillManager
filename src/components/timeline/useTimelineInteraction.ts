@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { AnyEvent, DeriveEvent, isDeriveEvent, isPointEvent } from '@/types'
 import { useEventStore, useSkillStore, useUIStore } from '@/store'
 import { hitTest, isEventHit, isSkillDurationHit, cursorForHit } from './hitTest'
@@ -144,6 +144,20 @@ export function useTimelineInteraction(opts: InteractionOptions) {
   }, [opts, doHitTest, getCanvasXY])
 
   const onMouseUp = useCallback(() => { drag.current = { type: 'none' } }, [])
+
+  // 鼠标移出 canvas 区域时仍能捕获 mouseup（防止拖拽卡住）
+  useEffect(() => {
+    const handleWindowMouseUp = () => {
+      if (drag.current.type !== 'none') {
+        drag.current = { type: 'none' }
+        opts.onRedraw()
+        const canvas = opts.canvasRef.current
+        if (canvas) canvas.style.cursor = 'default'
+      }
+    }
+    window.addEventListener('mouseup', handleWindowMouseUp)
+    return () => window.removeEventListener('mouseup', handleWindowMouseUp)
+  }, [opts])
 
   const onMouseLeave = useCallback(() => {
     if (drag.current.type === 'none') {

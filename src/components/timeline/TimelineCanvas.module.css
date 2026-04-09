@@ -56,6 +56,27 @@
   color: var(--text-secondary);
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
+  transition: background 0.1s;
+}
+.trackLabelClickable { cursor: pointer; }
+.trackLabelClickable:hover { background: rgba(137,180,250,0.06); }
+/* 选中轨道：强高亮 */
+.trackLabelSelected {
+  background: rgba(137,180,250,0.12);
+  color: var(--text-primary);
+}
+/* 当前事件所在轨道：弱高亮 */
+.trackLabelEventActive {
+  background: rgba(137,180,250,0.05);
+  color: var(--text-primary);
+}
+.trackCount {
+  margin-left: auto;
+  font-size: 10px;
+  background: var(--bg-tertiary);
+  padding: 1px 5px;
+  border-radius: 8px;
+  color: var(--text-muted);
 }
 .canvasArea {
   flex: 1;
