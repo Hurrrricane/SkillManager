@@ -59,7 +59,7 @@ function makeDefaultEvent(kind: AnyEvent['kind'], skillId: number, allEvents: An
   switch (kind) {
     case 'AnimEvent':         return { kind, skillId, triggerTime: pt,  animName: 'new_anim' }
     case 'HitEvent':           return { kind, skillId, triggerTime: pt,  shape: EHitShape.Fan, offsetX: 0, offsetY: 1, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
-    case 'PersistentHitEvent': return { kind, skillId, startTime: ds, endTime: de, subType: EPersistentHitSubType.Wave, shape: EHitShape.Circle, offsetX: 0, offsetY: 0.5, shapeParam1: 0.4, shapeParam2: 0, speed: 8, destroyOnHit: true, hitInterval: 0, maxHitsPerTarget: 0, damage: 80, stagger: 0.1, knockback: 0.3, poiseDamage: 5, hitStop: 0.03 }
+    case 'PersistentHitEvent': return { kind, skillId, startTime: ds, endTime: de, subType: EPersistentHitSubType.Wave, shape: EHitShape.Circle, offsetX: 0, offsetY: 0.5, shapeParam1: 0.4, shapeParam2: 0, speed: 8, hitLength: 1.0, destroyOnHit: true, hitInterval: 0, maxHitsPerTarget: 0, damage: 80, stagger: 0.1, knockback: 0.3, poiseDamage: 5, hitStop: 0.03 }
     case 'BuffEvent':         return { kind, skillId, triggerTime: pt,  buffId: 1, target: EBuffTarget.Self, duration: 0, stackCount: 1 }
     case 'ResourceEvent':     return { kind, skillId, triggerTime: pt,  resourceType: EResourceType.Energy, value: 10, isPercent: false }
     case 'VFXEvent':          return { kind, skillId, triggerTime: pt,  effectId: 'vfx_new', attachPoint: '', offsetX: 0, offsetY: 0, offsetZ: 0, rotation: 0, scale: 1, duration: 0, followChar: true }

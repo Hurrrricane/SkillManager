@@ -107,7 +107,7 @@ function makeDefaultForTrack(kind: string, skillId: number, existingEvents: AnyE
   switch (kind) {
     case 'AnimEvent':         return { kind: 'AnimEvent',         skillId, triggerTime: pt,  animName: 'new_anim' }
     case 'HitEvent':           return { kind: 'HitEvent',           skillId, triggerTime: pt, shape: 2, offsetX: 0, offsetY: 1, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
-    case 'PersistentHitEvent': return { kind: 'PersistentHitEvent', skillId, startTime: ds, endTime: de, subType: 0, shape: 0, offsetX: 0, offsetY: 0.5, shapeParam1: 0.4, shapeParam2: 0, speed: 8, destroyOnHit: true, hitInterval: 0, maxHitsPerTarget: 0, damage: 80, stagger: 0.1, knockback: 0.3, poiseDamage: 5, hitStop: 0.03 }
+    case 'PersistentHitEvent': return { kind: 'PersistentHitEvent', skillId, startTime: ds, endTime: de, subType: 0, shape: 0, offsetX: 0, offsetY: 0.5, shapeParam1: 0.4, shapeParam2: 0, speed: 8, hitLength: 1.0, destroyOnHit: true, hitInterval: 0, maxHitsPerTarget: 0, damage: 80, stagger: 0.1, knockback: 0.3, poiseDamage: 5, hitStop: 0.03 }
     case 'BuffEvent':         return { kind: 'BuffEvent',         skillId, triggerTime: pt,  buffId: 1, target: 0, duration: 0, stackCount: 1 }
     case 'ResourceEvent':     return { kind: 'ResourceEvent',     skillId, triggerTime: pt,  resourceType: 0, value: 10, isPercent: false }
     case 'VFXEvent':          return { kind: 'VFXEvent',          skillId, triggerTime: pt,  effectId: 'vfx_new', attachPoint: '', offsetX: 0, offsetY: 0, offsetZ: 0, rotation: 0, scale: 1, duration: 0, followChar: true }

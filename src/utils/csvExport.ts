@@ -80,14 +80,14 @@ export function exportEvents(events: AnyEvent[]): Record<string, string> {
     ]),
   )
   out['persistent_hit_event.csv'] = buildCsv(
-    ['id','skillId','startTime','endTime','subType','shape','offsetX','offsetY','shapeParam1','shapeParam2','speed','destroyOnHit','hitInterval','maxHitsPerTarget','damage','stagger','knockback','poiseDamage','hitStop'],
-    ['int','int','float','float','EPersistentHitSubType','EHitShape','float','float','float','float','float','bool','float','int','int','float','float','float','float'],
-    ['ID','技能ID','开始','结束','子类型','形状','偏移X','偏移Y','参数1','参数2','速度','命中销毁','命中间隔','每目标上限','伤害','僵直','击退','削韧','顿帧'],
+    ['id','skillId','startTime','endTime','subType','shape','offsetX','offsetY','shapeParam1','shapeParam2','speed','hitLength','destroyOnHit','hitInterval','maxHitsPerTarget','damage','stagger','knockback','poiseDamage','hitStop'],
+    ['int','int','float','float','EPersistentHitSubType','EHitShape','float','float','float','float','float','float','bool','float','int','int','float','float','float','float'],
+    ['ID','技能ID','开始','结束','子类型','形状','偏移X','偏移Y','参数1','参数2','速度','判定区长度','命中销毁','命中间隔','每目标上限','伤害','僵直','击退','削韧','顿帧'],
     byKind<PersistentHitEvent>(events,'PersistentHitEvent').map(e=>[
       e.id,e.skillId,e.startTime,e.endTime,
       EPersistentHitSubType[e.subType],EHitShape[e.shape],
       e.offsetX,e.offsetY,e.shapeParam1,e.shapeParam2,
-      e.speed,e.destroyOnHit,e.hitInterval,e.maxHitsPerTarget,
+      e.speed,e.hitLength,e.destroyOnHit,e.hitInterval,e.maxHitsPerTarget,
       e.damage,e.stagger,e.knockback,e.poiseDamage,e.hitStop,
     ]),
   )

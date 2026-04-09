@@ -125,6 +125,7 @@ export interface PersistentHitEvent {
   shapeParam2: number
   // Wave 专有（Field 时忽略）
   speed: number
+  hitLength: number    // 判定区在前进方向上的长度
   destroyOnHit: boolean
   // Field 专有（Wave 时忽略）
   hitInterval: number      // 命中间隔(s)；0 = 只命中一次

@@ -26,9 +26,24 @@ export function PersistentHitEventPanel({ event }: Props) {
   const up = (patch: Partial<PersistentHitEvent>) =>
     updateEvent(event.skillId, event.id, 'PersistentHitEvent', patch as never)
 
-  const isWave  = event.subType === EPersistentHitSubType.Wave
-  const showP2  = event.shape !== EHitShape.Circle
-  const p2Label = SHAPE_P2_LABEL[event.shape] ?? ''
+  const isWave   = event.subType === EPersistentHitSubType.Wave
+  const showP2   = event.shape !== EHitShape.Circle
+  const p2Label  = SHAPE_P2_LABEL[event.shape] ?? ''
+  const duration = parseFloat((event.endTime - event.startTime).toFixed(2))
+
+  // 按时长算范围：hitLength = speed × duration
+  const calcLengthFromTime = () => {
+    if (event.speed <= 0) return
+    up({ hitLength: parseFloat((event.speed * duration).toFixed(2)) })
+  }
+
+  // 按范围算时长：endTime = startTime + hitLength / speed
+  const calcTimeFromLength = () => {
+    if (event.speed <= 0 || event.hitLength <= 0) return
+    up({ endTime: parseFloat((event.startTime + event.hitLength / event.speed).toFixed(2)) })
+  }
+
+  const canCalc = event.speed > 0
 
   return (
     <div className={styles.panel}>
@@ -50,19 +65,42 @@ export function PersistentHitEventPanel({ event }: Props) {
 
       <EnumSelect label="子类型" value={event.subType} options={SUBTYPE_OPTIONS} onChange={v => up({ subType: v })} />
 
+      {/* Wave 互算工具按钮 */}
+      {isWave && (
+        <div className={styles.utilRow}>
+          <button
+            className={styles.utilBtn}
+            disabled={!canCalc}
+            title={canCalc ? `范围 = ${event.speed} × ${duration}s` : '速度需 > 0'}
+            onClick={calcLengthFromTime}
+          >
+            按时长算范围
+          </button>
+          <button
+            className={styles.utilBtn}
+            disabled={!canCalc || event.hitLength <= 0}
+            title={canCalc && event.hitLength > 0 ? `时长 = ${event.hitLength} ÷ ${event.speed}` : '速度和范围均需 > 0'}
+            onClick={calcTimeFromLength}
+          >
+            按范围算时长
+          </button>
+        </div>
+      )}
+
       <div className={styles.section}>判定体</div>
       <EnumSelect label="形状" value={event.shape} options={SHAPE_OPTIONS} onChange={v => up({ shape: v })} />
       <div className={styles.row2}>
         <NumberInput label="偏移 X" value={event.offsetX} onChange={v => up({ offsetX: v })} />
         <NumberInput label="偏移 Y" value={event.offsetY} onChange={v => up({ offsetY: v })} />
       </div>
-      <NumberInput label="半径 / 半宽" value={event.shapeParam1} onChange={v => up({ shapeParam1: v })} min={0} />
+      <NumberInput label="截面半径 / 半宽" value={event.shapeParam1} onChange={v => up({ shapeParam1: v })} min={0} />
       {showP2 && <NumberInput label={p2Label} value={event.shapeParam2} onChange={v => up({ shapeParam2: v })} min={0} />}
 
       {isWave ? (
         <>
           <div className={styles.section}>Wave 参数</div>
-          <NumberInput label="速度 (u/s)" value={event.speed} onChange={v => up({ speed: v })} min={0} />
+          <NumberInput label="速度 (u/s)"    value={event.speed}     onChange={v => up({ speed: v })}     min={0} />
+          <NumberInput label="判定区长度"     value={event.hitLength} onChange={v => up({ hitLength: v })} min={0} />
           <div className={styles.checkField}>
             <span>命中销毁</span>
             <label className={styles.toggle}>
@@ -75,7 +113,7 @@ export function PersistentHitEventPanel({ event }: Props) {
       ) : (
         <>
           <div className={styles.section}>Field 参数</div>
-          <NumberInput label="命中间隔 (s)" value={event.hitInterval}      onChange={v => up({ hitInterval: v })}      min={0} />
+          <NumberInput label="命中间隔 (s)" value={event.hitInterval}      onChange={v => up({ hitInterval: v })}                         min={0} />
           <NumberInput label="每目标上限"   value={event.maxHitsPerTarget} onChange={v => up({ maxHitsPerTarget: Math.round(v) })} min={0} step={1} />
         </>
       )}
