@@ -57,7 +57,7 @@ function makeDefaultEvent(kind: AnyEvent['kind'], skillId: number, allEvents: An
 
   switch (kind) {
     case 'AnimEvent':         return { kind, skillId, triggerTime: pt,  animName: 'new_anim' }
-    case 'HitEvent':          return { kind, skillId, triggerTime: pt,  shape: EHitShape.Fan, offsetX: 0, offsetY: 1, rotation: 0, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
+    case 'HitEvent':          return { kind, skillId, triggerTime: pt,  shape: EHitShape.Fan, offsetX: 0, offsetY: 1, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
     case 'BuffEvent':         return { kind, skillId, triggerTime: pt,  buffId: 1, target: EBuffTarget.Self, duration: 0, stackCount: 1 }
     case 'ResourceEvent':     return { kind, skillId, triggerTime: pt,  resourceType: EResourceType.Energy, value: 10, isPercent: false }
     case 'VFXEvent':          return { kind, skillId, triggerTime: pt,  effectId: 'vfx_new', attachPoint: '', offsetX: 0, offsetY: 0, offsetZ: 0, rotation: 0, scale: 1, duration: 0, followChar: true }

@@ -1,0 +1,12 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  cursor: crosshair;
+  user-select: none;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #13131f;
+  border: 1px solid var(--border-color);
+}

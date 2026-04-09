@@ -70,12 +70,12 @@ export function exportEvents(events: AnyEvent[]): Record<string, string> {
     byKind<AnimEvent>(events,'AnimEvent').map(e=>[e.id,e.skillId,e.triggerTime,e.animName]),
   )
   out['hit_event.csv'] = buildCsv(
-    ['id','skillId','triggerTime','shape','offsetX','offsetY','rotation','shapeParam1','shapeParam2','damage','stagger','knockback','poiseDamage','comboCount','hitStop'],
-    ['int','int','float','EHitShape','float','float','float','float','float','int','float','float','float','int','float'],
-    ['ID','技能ID','触发时间','形状','偏移X','偏移Y','旋转','参数1','参数2','伤害','僵直','击退','削韧','连击','顿帧'],
+    ['id','skillId','triggerTime','shape','offsetX','offsetY','shapeParam1','shapeParam2','damage','stagger','knockback','poiseDamage','comboCount','hitStop'],
+    ['int','int','float','EHitShape','float','float','float','float','int','float','float','float','int','float'],
+    ['ID','技能ID','触发时间','形状','偏移X','偏移Y','参数1','参数2','伤害','僵直','击退','削韧','连击','顿帧'],
     byKind<HitEvent>(events,'HitEvent').map(e=>[
       e.id,e.skillId,e.triggerTime,EHitShape[e.shape],
-      e.offsetX,e.offsetY,e.rotation,e.shapeParam1,e.shapeParam2,
+      e.offsetX,e.offsetY,e.shapeParam1,e.shapeParam2,
       e.damage,e.stagger,e.knockback,e.poiseDamage,e.comboCount,e.hitStop,
     ]),
   )

@@ -18,7 +18,6 @@ export enum EHitShape {
   Circle    = 0,
   Rectangle = 1,
   Fan       = 2,
-  Ring      = 3,
 }
 
 export enum EBuffTarget {

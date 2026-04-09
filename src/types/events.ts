@@ -36,7 +36,6 @@ export interface HitEvent {
   shape: EHitShape
   offsetX: number
   offsetY: number
-  rotation: number
   shapeParam1: number
   shapeParam2: number
   damage: number

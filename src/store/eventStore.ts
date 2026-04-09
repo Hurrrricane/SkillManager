@@ -19,9 +19,9 @@ const MOCK_EVENTS: AnyEvent[] = [
   { kind: 'AnimEvent', id: 2, skillId: 1002, triggerTime: 0, animName: 'slash_2' },
   { kind: 'AnimEvent', id: 3, skillId: 1003, triggerTime: 0, animName: 'slash_3' },
   // ── HitEvent ─────────────────────────────────────────────────
-  { kind: 'HitEvent', id: 1, skillId: 1001, triggerTime: 0.25, shape: EHitShape.Fan,    offsetX: 0, offsetY: 1.0, rotation: 0, shapeParam1: 2.5, shapeParam2: 90,  damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 },
-  { kind: 'HitEvent', id: 2, skillId: 1002, triggerTime: 0.35, shape: EHitShape.Circle, offsetX: 0, offsetY: 0,   rotation: 0, shapeParam1: 3.0, shapeParam2: 0,   damage: 120, stagger: 0.3, knockback: 0.8, poiseDamage: 15, comboCount: 1, hitStop: 0.05 },
-  { kind: 'HitEvent', id: 3, skillId: 1003, triggerTime: 0.5,  shape: EHitShape.Fan,    offsetX: 0, offsetY: 1.5, rotation: 0, shapeParam1: 3.5, shapeParam2: 120, damage: 200, stagger: 0.8, knockback: 3.0, poiseDamage: 30, comboCount: 1, hitStop: 0.1  },
+  { kind: 'HitEvent', id: 1, skillId: 1001, triggerTime: 0.25, shape: EHitShape.Fan,    offsetX: 0, offsetY: 1.0, shapeParam1: 2.5, shapeParam2: 90,  damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 },
+  { kind: 'HitEvent', id: 2, skillId: 1002, triggerTime: 0.35, shape: EHitShape.Circle, offsetX: 0, offsetY: 0,   shapeParam1: 3.0, shapeParam2: 0,   damage: 120, stagger: 0.3, knockback: 0.8, poiseDamage: 15, comboCount: 1, hitStop: 0.05 },
+  { kind: 'HitEvent', id: 3, skillId: 1003, triggerTime: 0.5,  shape: EHitShape.Fan,    offsetX: 0, offsetY: 1.5, shapeParam1: 3.5, shapeParam2: 120, damage: 200, stagger: 0.8, knockback: 3.0, poiseDamage: 30, comboCount: 1, hitStop: 0.1  },
   // ── DisplacementEvent ────────────────────────────────────────
   { kind: 'DisplacementEvent', id: 1, skillId: 1001, startTime: 0.1, endTime: 0.3, direction: EDisplacementDir.Forward, customAngle: 0, distance: 2.0, curve: EEaseCurve.EaseOut, ignoreCollision: false },
   { kind: 'DisplacementEvent', id: 2, skillId: 1003, startTime: 0.3, endTime: 0.55, direction: EDisplacementDir.Forward, customAngle: 0, distance: 3.0, curve: EEaseCurve.EaseIn, ignoreCollision: false },
