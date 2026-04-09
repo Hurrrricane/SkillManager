@@ -20,6 +20,11 @@ export enum EHitShape {
   Fan       = 2,
 }
 
+export enum EPersistentHitSubType {
+  Wave  = 0,   // 波动式：向角色前方移动
+  Field = 1,   // 持续场：原地持续命中
+}
+
 export enum EBuffTarget {
   Self  = 0,
   Enemy = 1,

@@ -2,6 +2,7 @@ import { useUIStore, useEventStore, useSkillStore } from '@/store'
 import { AnyEvent } from '@/types'
 import { AnimEventPanel } from './panels/AnimEventPanel'
 import { HitEventPanel } from './panels/HitEventPanel'
+import { PersistentHitEventPanel } from './panels/PersistentHitEventPanel'
 import { DeriveEventPanel } from './panels/DeriveEventPanel'
 import { DisplacementEventPanel } from './panels/DisplacementEventPanel'
 import { StateEventPanel } from './panels/StateEventPanel'
@@ -20,6 +21,7 @@ function renderEventPanel(event: AnyEvent) {
   switch (event.kind) {
     case 'AnimEvent':         return <AnimEventPanel event={event} />
     case 'HitEvent':          return <HitEventPanel event={event} />
+    case 'PersistentHitEvent': return <PersistentHitEventPanel event={event as never} />
     case 'DeriveEvent':       return <DeriveEventPanel event={event} />
     case 'DisplacementEvent': return <DisplacementEventPanel event={event} />
     case 'StateEvent':        return <StateEventPanel event={event} />

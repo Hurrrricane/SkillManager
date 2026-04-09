@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSkillStore, useEventStore } from '@/store'
-import { AnyEvent, ESkillCategory, ECostType, ESkillTag, EHitShape, EDisplacementDir, EEaseCurve, ECameraType, EStateFlag, EBuffTarget, EResourceType } from '@/types'
+import { AnyEvent, ESkillCategory, ECostType, ESkillTag, EHitShape, EPersistentHitSubType, EDisplacementDir, EEaseCurve, ECameraType, EStateFlag, EBuffTarget, EResourceType } from '@/types'
 import { EnumSelect } from './fields/EnumSelect'
 import { FlagsCheckbox } from './fields/FlagsCheckbox'
 import { NumberInput } from './fields/NumberInput'
@@ -30,7 +30,8 @@ const TAG_OPTS = [
 
 // ── 事件类型列表（用于添加按钮）────────────────────────────
 const EVENT_TYPES: { label: string; kind: AnyEvent['kind']; color: string }[] = [
-  { label: 'Hit',   kind: 'HitEvent',          color: '#E74C3C' },
+  { label: 'Hit',    kind: 'HitEvent',           color: '#E74C3C' },
+  { label: '持续Hit', kind: 'PersistentHitEvent', color: '#FF7675' },
   { label: '位移',  kind: 'DisplacementEvent', color: '#E67E22' },
   { label: '状态',  kind: 'StateEvent',        color: '#2ECC71' },
   { label: '资源',  kind: 'ResourceEvent',     color: '#27AE60' },
@@ -57,7 +58,8 @@ function makeDefaultEvent(kind: AnyEvent['kind'], skillId: number, allEvents: An
 
   switch (kind) {
     case 'AnimEvent':         return { kind, skillId, triggerTime: pt,  animName: 'new_anim' }
-    case 'HitEvent':          return { kind, skillId, triggerTime: pt,  shape: EHitShape.Fan, offsetX: 0, offsetY: 1, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
+    case 'HitEvent':           return { kind, skillId, triggerTime: pt,  shape: EHitShape.Fan, offsetX: 0, offsetY: 1, shapeParam1: 2, shapeParam2: 90, damage: 100, stagger: 0.3, knockback: 0.5, poiseDamage: 10, comboCount: 1, hitStop: 0.05 }
+    case 'PersistentHitEvent': return { kind, skillId, startTime: ds, endTime: de, subType: EPersistentHitSubType.Wave, shape: EHitShape.Circle, offsetX: 0, offsetY: 0.5, shapeParam1: 0.4, shapeParam2: 0, speed: 8, destroyOnHit: true, hitInterval: 0, maxHitsPerTarget: 0, damage: 80, stagger: 0.1, knockback: 0.3, poiseDamage: 5, hitStop: 0.03 }
     case 'BuffEvent':         return { kind, skillId, triggerTime: pt,  buffId: 1, target: EBuffTarget.Self, duration: 0, stackCount: 1 }
     case 'ResourceEvent':     return { kind, skillId, triggerTime: pt,  resourceType: EResourceType.Energy, value: 10, isPercent: false }
     case 'VFXEvent':          return { kind, skillId, triggerTime: pt,  effectId: 'vfx_new', attachPoint: '', offsetX: 0, offsetY: 0, offsetZ: 0, rotation: 0, scale: 1, duration: 0, followChar: true }

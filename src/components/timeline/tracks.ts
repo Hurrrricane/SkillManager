@@ -9,7 +9,8 @@ export interface TrackConfig {
 }
 
 export const TRACKS: TrackConfig[] = [
-  { id: 'hit',          label: 'Hit',   kind: 'HitEvent',          color: '#E74C3C', height: 32 },
+  { id: 'hit',           label: 'Hit',    kind: 'HitEvent',           color: '#E74C3C', height: 32 },
+  { id: 'persistentHit', label: '持续Hit', kind: 'PersistentHitEvent', color: '#FF7675', height: 32 },
   { id: 'displacement', label: '位移',  kind: 'DisplacementEvent', color: '#E67E22', height: 32 },
   { id: 'state',        label: '状态',  kind: 'StateEvent',        color: '#2ECC71', height: 32 },
   { id: 'resource',     label: '资源',  kind: 'ResourceEvent',     color: '#27AE60', height: 32 },

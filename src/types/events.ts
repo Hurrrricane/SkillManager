@@ -1,6 +1,6 @@
 import {
   EBuffTarget, ECameraType, EDisplacementDir,
-  EEaseCurve, EHitShape, EResourceType, EStateFlag,
+  EEaseCurve, EHitShape, EPersistentHitSubType, EResourceType, EStateFlag,
 } from './enums'
 
 // ── 判别标签 ─────────────────────────────────────────────────
@@ -8,6 +8,7 @@ import {
 export type EventKind =
   | 'AnimEvent'
   | 'HitEvent'
+  | 'PersistentHitEvent'
   | 'BuffEvent'
   | 'ResourceEvent'
   | 'VFXEvent'
@@ -107,6 +108,35 @@ export interface DeriveEvent {
   preInputPoint: number
 }
 
+// ── 持续 Hit 事件 ────────────────────────────────────────────
+
+export interface PersistentHitEvent {
+  kind: 'PersistentHitEvent'
+  id: number
+  skillId: number
+  startTime: number
+  endTime: number
+  subType: EPersistentHitSubType
+  // 判定体
+  shape: EHitShape
+  offsetX: number
+  offsetY: number
+  shapeParam1: number
+  shapeParam2: number
+  // Wave 专有（Field 时忽略）
+  speed: number
+  destroyOnHit: boolean
+  // Field 专有（Wave 时忽略）
+  hitInterval: number      // 命中间隔(s)；0 = 只命中一次
+  maxHitsPerTarget: number // 0 = 不限
+  // 战斗数值
+  damage: number
+  stagger: number
+  knockback: number
+  poiseDamage: number
+  hitStop: number
+}
+
 // ── 持续事件 ─────────────────────────────────────────────────
 
 export interface DisplacementEvent {
@@ -157,7 +187,7 @@ export type PointEvent =
   | AnimEvent | HitEvent | BuffEvent | ResourceEvent | VFXEvent | SFXEvent
 
 export type DurationEvent =
-  | DisplacementEvent | StateEvent | LoopEvent | CameraEvent
+  | PersistentHitEvent | DisplacementEvent | StateEvent | LoopEvent | CameraEvent
 
 export type AnyEvent = PointEvent | DurationEvent | DeriveEvent
 
@@ -169,6 +199,10 @@ export function isPointEvent(e: AnyEvent): e is PointEvent {
 
 export function isDurationEvent(e: AnyEvent): e is DurationEvent {
   return 'startTime' in e && e.kind !== 'DeriveEvent'
+}
+
+export function isPersistentHitEvent(e: AnyEvent): e is PersistentHitEvent {
+  return e.kind === 'PersistentHitEvent'
 }
 
 export function isDeriveEvent(e: AnyEvent): e is DeriveEvent {
