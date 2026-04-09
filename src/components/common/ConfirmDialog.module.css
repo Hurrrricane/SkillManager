@@ -1,0 +1,12 @@
+.message { color: var(--text-primary); margin-bottom: 20px; line-height: 1.5; }
+.actions { display: flex; justify-content: flex-end; gap: 8px; }
+.cancel {
+  padding: 6px 16px; border-radius: 4px;
+  background: var(--bg-tertiary); color: var(--text-secondary);
+}
+.cancel:hover { background: var(--bg-hover); }
+.confirm {
+  padding: 6px 16px; border-radius: 4px;
+  background: var(--danger); color: #fff;
+}
+.confirm:hover { background: var(--danger-hover); }

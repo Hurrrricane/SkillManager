@@ -1,0 +1,44 @@
+:root {
+  /* Layout */
+  --sidebar-width: 240px;
+  --panel-width: 320px;
+  --ruler-height: 28px;
+  --track-label-width: 120px;
+  --track-height: 32px;
+  --derive-track-height: 40px;
+
+  /* Colors - UI */
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #2a2a3e;
+  --bg-tertiary: #313147;
+  --bg-hover: #3a3a52;
+  --border-color: #3f3f5a;
+  --text-primary: #cdd6f4;
+  --text-secondary: #a6adc8;
+  --text-muted: #6c7086;
+  --accent: #89b4fa;
+  --accent-hover: #74c7ec;
+  --danger: #f38ba8;
+  --danger-hover: #eba0ac;
+  --success: #a6e3a1;
+
+  /* Colors - Tracks */
+  --track-derive: #7C5CBF;
+  --track-anim: #3A7BD5;
+  --track-hit: #E74C3C;
+  --track-buff: #F39C12;
+  --track-resource: #27AE60;
+  --track-vfx: #1ABC9C;
+  --track-sfx: #9B59B6;
+  --track-displacement: #E67E22;
+  --track-state: #2ECC71;
+  --track-loop: #16A085;
+  --track-camera: #8E44AD;
+
+  /* Timeline */
+  --ruler-bg: #252535;
+  --track-bg-odd: #1e1e2e;
+  --track-bg-even: #232333;
+  --grid-color: rgba(255,255,255,0.04);
+  --cursor-color: #f5c2e7;
+}

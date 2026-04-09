@@ -1,0 +1,22 @@
+.layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+.divider {
+  width: 4px;
+  flex-shrink: 0;
+  background: var(--border-color);
+  cursor: ew-resize;
+  transition: background 0.15s;
+}
+.divider:hover { background: var(--accent); }
+.panelWrapper {
+  flex-shrink: 0;
+  height: 100%;
+  border-left: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
