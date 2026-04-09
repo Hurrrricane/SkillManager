@@ -6,6 +6,12 @@ echo.
 echo  SkillManager 技能编辑器
 echo ========================
 
+:: 关闭占用 5173 端口的进程
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":5173 " ^| findstr "LISTENING" 2^>nul') do (
+    echo  停止已有服务 (PID: %%a)...
+    taskkill /PID %%a /F >nul 2>&1
+)
+
 if not exist "node_modules" (
     echo  首次运行，安装依赖...
     npm install
