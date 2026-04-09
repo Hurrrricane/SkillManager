@@ -272,11 +272,19 @@ export function HitRangePreview({ event }: { event: HitEvent }) {
     return () => ro.disconnect()
   }, [])
 
-  const onWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault()
-    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12
-    zoomMulRef.current = Math.max(0.1, Math.min(20, zoomMulRef.current * factor))
-    dirtyRef.current = true
+  // Non-passive wheel listener — prevents scroll propagation to parent panel
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el) return
+    const handler = (e: WheelEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12
+      zoomMulRef.current = Math.max(0.1, Math.min(20, zoomMulRef.current * factor))
+      dirtyRef.current = true
+    }
+    el.addEventListener('wheel', handler, { passive: false })
+    return () => el.removeEventListener('wheel', handler)
   }, [])
 
   const onDblClick = useCallback(() => {
@@ -285,7 +293,7 @@ export function HitRangePreview({ event }: { event: HitEvent }) {
   }, [])
 
   return (
-    <div ref={wrapperRef} className={styles.wrapper} onWheel={onWheel} onDoubleClick={onDblClick}>
+    <div ref={wrapperRef} className={styles.wrapper} onDoubleClick={onDblClick}>
       <canvas ref={canvasRef} style={{ display: 'block' }} />
     </div>
   )

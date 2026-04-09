@@ -10,6 +10,12 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+/* Draggable label (Unity-style) */
+.labelDrag {
+  cursor: ew-resize;
+  user-select: none;
+}
+.labelDrag:hover { color: var(--accent); }
 .input, .select {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
