@@ -23,4 +23,7 @@ echo "   本地地址: http://localhost:5173"
 echo "   按 Ctrl+C 停止"
 echo ""
 
+# 等待服务启动后自动打开浏览器
+(sleep 2 && open "http://localhost:5173") &
+
 npm run dev

@@ -27,4 +27,7 @@ echo  本地地址: http://localhost:5173
 echo  按 Ctrl+C 停止
 echo.
 
+:: 延迟 2 秒后自动打开浏览器
+start "" cmd /c "timeout /t 2 >nul && start http://localhost:5173"
+
 npm run dev
